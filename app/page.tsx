@@ -45,20 +45,12 @@ export default function Home() {
       window.setTimeout(() => setBrushMarks((marks) => marks.filter((mark) => mark.id !== id)), 720);
     }
 
-    function touchBrushMark(event: PointerEvent) {
-      if (event.pointerType !== 'touch') return;
-      const id = Date.now() + Math.random();
-      setBrushMarks((marks) => [...marks.slice(-18), { id, x: event.clientX, y: event.clientY, angle: -12 + Math.random() * 24, size: 26 }]);
-      scatterFlecks(event.clientX, event.clientY);
-      window.setTimeout(() => setBrushMarks((marks) => marks.filter((mark) => mark.id !== id)), 720);
-    }
-
     window.addEventListener('pointermove', leaveBrushMark);
-    window.addEventListener('pointerdown', touchBrushMark);
-    return () => { window.removeEventListener('pointermove', leaveBrushMark); window.removeEventListener('pointerdown', touchBrushMark); };
+    return () => window.removeEventListener('pointermove', leaveBrushMark);
   }, []);
 
   function radiateAtWorks(event: React.MouseEvent<HTMLAnchorElement>) {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     const id = Date.now();
     setRays(Array.from({ length: 8 }, (_, index) => ({
       id: id + index,
