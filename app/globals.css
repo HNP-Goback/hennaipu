@@ -5,6 +5,10 @@
 html { scroll-behavior: smooth; }
 body { margin:0; background:var(--paper); color:var(--ink); font-family:Arial, "PingFang SC", "Microsoft YaHei", sans-serif; }
 a { color:inherit; text-decoration:none; }
+.star-burst { position:fixed; inset:0; pointer-events:none; z-index:20; }
+.sparkle { position:absolute; width:12px; height:12px; transform:translate(-50%,-50%) rotate(45deg); background:var(--orange); border-radius:2px; opacity:0; animation:sparkle-pop .72s ease-out forwards; }
+.sparkle::before,.sparkle::after { content:""; position:absolute; inset:3px -5px; border-radius:50%; background:var(--orange); }.sparkle::after { transform:rotate(90deg); }
+@keyframes sparkle-pop { 0% { opacity:0; transform:translate(-50%,-50%) scale(.2) rotate(45deg); } 25% { opacity:1; } 100% { opacity:0; transform:translate(calc(-50% + var(--drift)), calc(-50% - 62px)) scale(1.35) rotate(145deg); } }
 .site-header { height:78px; padding:0 clamp(22px,5vw,74px); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); }
 .brand { display:flex; align-items:center; font-size:18px; font-weight:700; letter-spacing:.03em; }.brand img { width:36px; height:36px; margin-right:10px; border:1px solid var(--line); border-radius:50%; object-fit:cover; background:#fff; }.brand span { font-size:10px; margin-left:8px; color:var(--orange); letter-spacing:.15em; }
 nav { display:flex; gap:22px; font-size:13px; } nav a:hover { color:var(--orange); }
@@ -18,3 +22,4 @@ figcaption { padding-top:12px; display:flex; justify-content:space-between; gap:
 .about { margin:0 clamp(22px,5vw,74px); padding:clamp(72px,10vw,140px) clamp(22px,9vw,145px); display:grid; grid-template-columns:1fr 2fr; gap:20px; border-top:1px solid var(--line); }.about div { max-width:580px; }.about p:not(.eyebrow) { color:#51645e; line-height:1.9; }
 footer { padding:100px clamp(22px,14vw,220px) 28px; min-height:470px; background:var(--ink); color:#f7f5ef; }.contact-placeholder { display:inline-block; font-size:clamp(24px,3.4vw,48px); margin-top:22px; border-bottom:1px solid #a8bab4; padding-bottom:8px; } footer>p:not(.eyebrow) { color:#c3d0cb; } footer small { display:block; margin-top:110px; font-size:11px; color:#b2c1bb; }
 @media (max-width:700px) { .hero { min-height:540px; padding-top:100px; }.gallery { gap:34px 14px; }.work,.work-1,.work-2,.work-3,.work-4,.work-5,.work-6 { grid-column:span 12; }.about { grid-template-columns:1fr; padding:76px 0; }.site-header { height:64px; } nav { gap:14px; font-size:12px; } figcaption { flex-direction:column; gap:4px; } figcaption span { text-align:left; } }
+@media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; }.sparkle { animation:none; display:none; } }
