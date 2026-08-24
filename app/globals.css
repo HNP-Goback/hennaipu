@@ -6,9 +6,9 @@ html { scroll-behavior: smooth; }
 body { margin:0; background:var(--paper); color:var(--ink); font-family:Arial, "PingFang SC", "Microsoft YaHei", sans-serif; }
 a { color:inherit; text-decoration:none; }
 .brush-trail { position:fixed; inset:0; z-index:19; pointer-events:none; }
-.brush-mark { position:absolute; display:block; height:3px; border-radius:99px; opacity:0; background:linear-gradient(90deg,transparent 0%,rgba(23,58,50,.18) 12%,rgba(23,58,50,.6) 44%,rgba(23,58,50,.24) 82%,transparent 100%); filter:blur(.15px); animation:brush-fade .72s ease-out forwards; }
-@keyframes brush-fade { 0% { opacity:0; } 18% { opacity:1; } 100% { opacity:0; } }
-.brush-fleck { position:absolute; display:block; border-radius:50% 40% 55% 35%; background:rgba(23,58,50,.52); opacity:0; animation:fleck-fade .68s ease-out forwards; }
+.brush-mark { position:absolute; display:block; height:2px; border-radius:99px; opacity:0; background-color:#173a32; background-image:radial-gradient(rgba(247,245,239,.28) .45px,transparent .7px),radial-gradient(rgba(247,245,239,.18) .4px,transparent .65px); background-position:0 0,3px 2px; background-size:5px 5px,7px 7px; animation:brush-fade .78s ease-out forwards; }
+@keyframes brush-fade { 0% { opacity:0; } 12% { opacity:.92; } 100% { opacity:0; } }
+.brush-fleck { position:absolute; display:block; border-radius:50% 40% 55% 35%; background:rgba(23,58,50,.46); opacity:0; animation:fleck-fade .68s ease-out forwards; }
 @keyframes fleck-fade { 0% { opacity:0; transform:translate(-50%,-50%) scale(.5); } 18% { opacity:.85; } 100% { opacity:0; transform:translate(calc(-50% + var(--fleck-x)),calc(-50% + var(--fleck-y))) scale(.7); } }
 .line-burst { position:fixed; inset:0; pointer-events:none; z-index:20; }
 .radiating-line { position:absolute; width:28px; height:1px; background:var(--orange); opacity:0; transform-origin:left center; animation:line-radiate .62s ease-out forwards; }
