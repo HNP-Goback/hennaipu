@@ -97,7 +97,7 @@ export default function Home() {
       </section>
       <section className="works" id="works" aria-labelledby="works-title">
         <div className="section-heading"><p className="eyebrow">SELECTED WORKS</p><h2 id="works-title">作品精选</h2><p>人物、色彩和一些正在生长的想象。</p></div>
-        <div className="gallery">{works.map((work, index) => <figure className={`work work-${index + 1}`} key={work.src}><div className="image-wrap"><img src={work.src} alt={work.title} draggable={false} onContextMenu={protectImage} /></div><figcaption><strong>{work.title}</strong><span>{work.tag}</span></figcaption></figure>)}</div>
+        <div className="gallery">{[0, 1].map((column) => <div className="gallery-column" key={column}>{works.filter((_, index) => index % 2 === column).map((work) => <figure className="work" key={work.src}><div className="image-wrap"><img src={work.src} alt={work.title} draggable={false} onContextMenu={protectImage} /></div><figcaption><strong>{work.title}</strong><span>{work.tag}</span></figcaption></figure>)}</div>)}</div>
       </section>
       <section className="about" id="about"><p className="eyebrow">ABOUT</p><div><h2>平涂、人物，<br />还有轻松的合作。</h2><p>喜欢用干净的色块和清晰的线条画出角色的情绪。无论是插画、漫画还是小小的个人实验，都希望画面看起来鲜活、有一点自己的故事。</p><p>也很好沟通。欢迎聊聊有趣的创作想法。</p></div></section>
       <footer id="contact"><p className="eyebrow">LET'S MAKE SOMETHING</p><h2>想一起画点什么？</h2><p>有合作想法，欢迎发邮件给我。</p><a className="contact-placeholder interactive" href="mailto:1043846762@qq.com" onClick={radiateFromButton}>1043846762@qq.com ↗</a><small>© 恒奈普大叔 · 2026</small></footer>
