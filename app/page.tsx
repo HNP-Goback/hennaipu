@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 const works = [
   { src: '/works/summer-lingxi.jpg', title: '一个由海浪书写的夏天', tag: '原创角色 · 海报' },
   { src: '/works/kill-la-kill.jpg', title: '战斗姿态', tag: '人物插画 · 同人' },
@@ -8,11 +12,28 @@ const works = [
 ];
 
 export default function Home() {
+  const [stars, setStars] = useState<{ id: number; x: number; y: number; delay: number; drift: number }[]>([]);
+
+  function sparkleAtWorks(event: React.MouseEvent<HTMLAnchorElement>) {
+    const id = Date.now();
+    setStars(Array.from({ length: 7 }, (_, index) => ({
+      id: id + index,
+      x: event.clientX,
+      y: event.clientY,
+      delay: index * 45,
+      drift: (index - 3) * 13,
+    })));
+    window.setTimeout(() => setStars([]), 900);
+  }
+
   return (
     <main>
+      <div className="star-burst" aria-hidden="true">
+        {stars.map((star) => <i key={star.id} className="sparkle" style={{ left: star.x, top: star.y, animationDelay: `${star.delay}ms`, '--drift': `${star.drift}px` } as React.CSSProperties} />)}
+      </div>
       <header className="site-header">
         <a className="brand" href="#top"><img src="/avatar.jpg" alt="恒奈普大叔的头像" />恒奈普大叔<span>HNP</span></a>
-        <nav aria-label="页面导航"><a href="#works">作品</a><a href="#about">关于</a><a href="#contact">联系</a></nav>
+        <nav aria-label="页面导航"><a href="#works" onClick={sparkleAtWorks}>作品</a><a href="#about">关于</a><a href="#contact">联系</a></nav>
       </header>
       <section className="hero" id="top">
         <p className="eyebrow">ILLUSTRATOR · COMICS · CHARACTER</p>
