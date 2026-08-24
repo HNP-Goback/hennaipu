@@ -13,6 +13,7 @@ const works = [
 
 export default function Home() {
   const [rays, setRays] = useState<{ id: number; x: number; y: number; delay: number; angle: number }[]>([]);
+  const [avatarEchoes, setAvatarEchoes] = useState<{ id: number; x: number; y: number }[]>([]);
   const [flecks, setFlecks] = useState<{ id: number; x: number; y: number; driftX: number; driftY: number; size: number }[]>([]);
   const lastPointer = useRef<{ x: number; y: number } | null>(null);
 
@@ -44,6 +45,17 @@ export default function Home() {
     return () => window.removeEventListener('pointermove', leaveFlecks);
   }, []);
 
+  useEffect(() => {
+    function showAvatarEcho(event: PointerEvent) {
+      const echo = { id: Date.now() + Math.random(), x: event.clientX, y: event.clientY };
+      setAvatarEchoes((items) => [...items.slice(-5), echo]);
+      window.setTimeout(() => setAvatarEchoes((items) => items.filter((item) => item.id !== echo.id)), 1250);
+    }
+
+    window.addEventListener('pointerdown', showAvatarEcho);
+    return () => window.removeEventListener('pointerdown', showAvatarEcho);
+  }, []);
+
   function radiateFromButton(event: React.MouseEvent<HTMLAnchorElement>) {
     if (window.matchMedia('(pointer: coarse)').matches) return;
     const box = event.currentTarget.getBoundingClientRect();
@@ -64,6 +76,9 @@ export default function Home() {
 
   return (
     <main>
+      <div className="avatar-echo-layer" aria-hidden="true">
+        {avatarEchoes.map((echo) => <img key={echo.id} className="avatar-echo" src="/avatar-echo.png" alt="" style={{ left: echo.x, top: echo.y }} />)}
+      </div>
       <div className="brush-trail" aria-hidden="true">
         {flecks.map((fleck) => <i key={fleck.id} className="brush-fleck" style={{ left: fleck.x, top: fleck.y, width: fleck.size, height: fleck.size, '--fleck-x': `${fleck.driftX}px`, '--fleck-y': `${fleck.driftY}px` } as React.CSSProperties} />)}
       </div>
