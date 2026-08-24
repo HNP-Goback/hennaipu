@@ -19,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     function scatterFlecks(x: number, y: number) {
-      const created = Array.from({ length: 3 }, (_, index) => ({
+      const created = Array.from({ length: 2 }, (_, index) => ({
         id: Date.now() + Math.random() + index,
         x,
         y,
@@ -34,11 +34,13 @@ export default function Home() {
     function leaveBrushMark(event: PointerEvent) {
       if (event.pointerType !== 'mouse') return;
       const last = lastPointer.current;
-      if (last && Math.hypot(event.clientX - last.x, event.clientY - last.y) < 10) return;
-      const angle = last ? Math.atan2(event.clientY - last.y, event.clientX - last.x) * (180 / Math.PI) : 0;
+      if (!last) { lastPointer.current = { x: event.clientX, y: event.clientY }; return; }
+      const distance = Math.hypot(event.clientX - last.x, event.clientY - last.y);
+      if (distance < 3) return;
+      const angle = Math.atan2(event.clientY - last.y, event.clientX - last.x) * (180 / Math.PI);
       const id = Date.now() + Math.random();
       lastPointer.current = { x: event.clientX, y: event.clientY };
-      setBrushMarks((marks) => [...marks.slice(-18), { id, x: event.clientX, y: event.clientY, angle, size: 16 + Math.random() * 12 }]);
+      setBrushMarks((marks) => [...marks.slice(-26), { id, x: (event.clientX + last.x) / 2, y: (event.clientY + last.y) / 2, angle, size: Math.min(distance + 7, 70) }]);
       scatterFlecks(event.clientX, event.clientY);
       window.setTimeout(() => setBrushMarks((marks) => marks.filter((mark) => mark.id !== id)), 720);
     }
